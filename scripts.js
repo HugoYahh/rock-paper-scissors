@@ -1,83 +1,116 @@
-function getComputerChoice(){
+const btnRock = document.querySelector("#rock-btn")
+const btnPaper = document.querySelector("#paper-btn")
+const btnScissors = document.querySelector("#scissors-btn")
+let btnContainer = document.querySelector(".btn-container")
+let result = document.querySelector("#result")
+
+btnContainer.addEventListener("click", (event) => {
+    let target = event.target
+    switch (target.id) {
+        case "rock-btn":
+            playRound("rock")
+            break;
+        case "paper-btn":
+            playRound("paper")
+            break;
+        case "scissors-btn":
+            playRound("scissors")
+            break;
+        default:
+            console.log("Ya un bug")
+            break;
+    }
+});
+
+
+function getComputerChoice() {
     let randomnumber = Math.random();
-    if(randomnumber<=1/3){
+    if (randomnumber <= 1 / 3) {
         return "rock";
-    } else if(randomnumber>=2/3){
+    } else if (randomnumber >= 2 / 3) {
         return "paper";
     }
-    else{
+    else {
         return "scissors";
     }
 }
 
-function getHumanChoice(){
-    let humanchoice=prompt("Rock, Paper, or Scissors ?!");
+function getHumanChoice() {
+    let humanchoice = prompt("Rock, Paper, or Scissors ?!");
     return humanchoice;
 }
 let humanscore = 0;
-let computerscore=0;
+let computerscore = 0;
 
 
-function playRound(){
-    let humanchoice = getHumanChoice();
+function playRound(humanchoice) {
+
     let computerchoice = getComputerChoice();
-
-    console.log(`Humain joue : ${humanchoice}`);
-    console.log(`Ordinateur joue : ${computerchoice}`);
-
     if (humanchoice === computerchoice) {
-        console.log("C'est une égalité ! Rejouons.");
+        result.textContent = "Egalité ! Rejouons."
+
     } else {
-        
+
         switch (humanchoice) {
             case "rock":
                 if (computerchoice === "scissors") {
                     humanscore++;
-                    console.log("Humain gagne ! Rock bat Scissors.");
-                } else { 
+                    result.textContent = "Humain gagne !"
+
+                } else {
                     computerscore++;
-                    console.log("Ordinateur gagne ! Paper bat Rock.");
+                    result.textContent = "Ordinateur gagne !"
+
                 }
-                break; 
+                break;
 
             case "paper":
                 if (computerchoice === "rock") {
                     humanscore++;
-                    console.log("Humain gagne ! Paper bat Rock.");
-                } else { 
+                    result.textContent = "Humain gagne !"
+
+                } else {
                     computerscore++;
-                    console.log("Ordinateur gagne ! Scissors bat Paper.");
+                    result.textContent = "Ordinateur gagne !";
+
                 }
-                break; 
+                break;
 
             case "scissors":
                 if (computerchoice === "paper") {
                     humanscore++;
-                    console.log("Humain gagne ! Scissors bat Paper.");
-                } else { 
+                    result.textContent = "Humain gagne !"
+
+                } else {
                     computerscore++;
-                    console.log("Ordinateur gagne ! Rock bat Scissors.");
+                    result.textContent = "Ordinateur gagne !";
+
                 }
-                break; 
+                break;
 
             default:
-                
-                console.log("Une erreur inattendue s'est produite.");
+
+                result.textContent = "Une erreur innatendue s'est produite"
                 break;
         }
     }
-    console.log(`Score actuel : Humain ${humanscore} - Ordinateur ${computerscore}`);
+    sleep(1500).then(() => { result.textContent = `Humain ${humanscore} - Ordinateur ${computerscore}` });
+    if (humanscore >= 5 || computerscore >= 5) {
+        if (humanscore > computerscore) {
+            result.textContent = "Human wins ! GG !"
+
+        }
+        else if (humanscore < computerscore) {
+            result.textContent = "Computer wins ! GG !"
+        }
+    }
 }
 
-function playGame(){
-    for (let i = 1 ; i<=5 ; i++){
-        playRound();
-    }
-    if(humanscore>computerscore){
-        console.log("Human wins ! GG !");
-    }
-    else if (humanscore<computerscore){
-        console.log("Computer wins ! GG !")
-    } 
+function sleep(ms) {
+
+    return new Promise(resolve => setTimeout(resolve, ms));
+
 }
+
+
 
